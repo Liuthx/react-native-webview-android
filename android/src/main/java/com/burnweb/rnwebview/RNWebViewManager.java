@@ -5,6 +5,7 @@ import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.os.Build;
 import android.view.ViewGroup.LayoutParams;
 import android.webkit.WebSettings;
 import android.webkit.CookieManager;
@@ -106,6 +107,10 @@ public class RNWebViewManager extends SimpleViewManager<RNWebView> {
     @ReactProp(name = "javaScriptEnabled", defaultBoolean = true)
     public void setJavaScriptEnabled(RNWebView view, boolean javaScriptEnabled) {
         view.getSettings().setJavaScriptEnabled(javaScriptEnabled);
+        view.getSettings().setUseWideViewPort(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            CookieManager.getInstance().setAcceptThirdPartyCookies(view, true);
+        }
     }
 
     @ReactProp(name = "userAgent")
